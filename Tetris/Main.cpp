@@ -1,14 +1,33 @@
 #include <SFML/Graphics.hpp>
-//Testing to see if the push works
+
+using namespace sf;
+
+
 
 int main() {
 	//Hurray, window works
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Tetris");
+	RenderWindow window(sf::VideoMode(600, 600), "Tetris");
+	Texture texture;
+
+	texture.loadFromFile("image/tiles.png");
+	Sprite sprite(texture);
+
+	//setScale allows for resizing of the texture. In this case, 2 * x and 2 * y.
+	sprite.setScale(2, 2);
+
 	while (window.isOpen())
 	{
+		Event event;
+		while (window.pollEvent(event)) {
+			if (event.type == Event::Closed) 
+				window.close();
+		}
+
+
 		window.clear(sf::Color::Black);
-		sf::RectangleShape rs(sf::Vector2f(100, 100));
-		window.draw(rs);
+		window.draw(sprite);
+		/*sf::RectangleShape rs(sf::Vector2f(100, 100));
+		window.draw(rs);*/
 		window.display();
 	}
 }

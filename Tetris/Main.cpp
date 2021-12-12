@@ -58,11 +58,15 @@ int main() {
 	//Reference for learning how to include music is from:
 	//https://www.youtube.com/watch?v=fm2Hi7082d0
 	//Make sure to use audacity to convert mp3 files to wav/ogg files because mp3 is not supported in SFML due to legal issues.
-	Music music;
-	music.openFromFile("audio/WillowTree.ogg");
-	music.setVolume(50);
-	
-	music.play();
+	//Simple set up procedure. This will play the song immediately when the program starts.
+	//Music music;
+	//music.openFromFile("audio/WillowTree.ogg");
+	//music.setVolume(50);
+	//music.play();
+
+	int dx = 0; 
+	bool rotate = false; 
+	int colourNum = 1;
 
 	while (window.isOpen())
 	{
@@ -70,19 +74,51 @@ int main() {
 		while (window.pollEvent(event)) {
 			if (event.type == Event::Closed) 
 				window.close();
+
+			if (event.type == Event::KeyPressed) {
+				if (event.key.code == Keyboard::Up)
+					rotate = true;
+				else if (event.key.code == Keyboard::Left)
+					dx = -1;
+				else if (event.key.code == Keyboard::Right)
+					dx = 1;
+			}
 		}
 
-		int n = 3;
-		for (int i = 0; i < 4; i++) {
-			a[i].x = figures[n][i] % 2;
-			a[i].y = figures[n][i] / 2;
+		// <- Move -> //
+		for (int i = 0; i < 4; i++)
+			a[i].x += dx;
+
+		// Rotate
+		if (rotate)
+		{
+			Point p = a[1]; //center of rotation
+			for (int i = 0; i < 4; i++) {
+				int x = a[i].y - p.y;
+				int y = a[i].x - p.x;
+				a[i].x = p.x - x;
+				a[i].y = p.y + y;
+			}
 		}
+
+
+		int n = 3;
+		if (a[0].x == 0)
+			for (int i = 0; i < 4; i++) {
+				a[i].x = figures[n][i] % 2;
+				a[i].y = figures[n][i] / 2;
+			}
+
+		// Resets movement and rotation.
+		dx = 0;
+		rotate = false;
 
 		//Window.clear can be left blank. Otherwise input colours using sf::Color::.
 		window.clear(sf::Color::White);
 
 		for (int i = 0; i < 4; i++)
 		{
+			//Because I set the scale of the original 18 by 18 pieces up by 2, I have to manually change the positions accordingly.
 			sprite.setPosition(a[i].x * 36, a[i].y * 36);
 			//window.draws the texture you've assigned to the sprite.
 			window.draw(sprite);

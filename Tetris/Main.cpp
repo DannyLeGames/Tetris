@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 using namespace sf;
 
@@ -54,7 +55,14 @@ int main() {
 	sprite2.setTextureRect(IntRect(0, 0, 512, 512));
 	sprite2.setScale(0.1, 0.1);
 
+	//Reference for learning how to include music is from:
+	//https://www.youtube.com/watch?v=fm2Hi7082d0
+	//Make sure to use audacity to convert mp3 files to wav/ogg files because mp3 is not supported in SFML due to legal issues.
+	Music music;
+	music.openFromFile("audio/WillowTree.ogg");
+	music.setVolume(50);
 	
+	music.play();
 
 	while (window.isOpen())
 	{
@@ -64,12 +72,21 @@ int main() {
 				window.close();
 		}
 
+		int n = 3;
+		for (int i = 0; i < 4; i++) {
+			a[i].x = figures[n][i] % 2;
+			a[i].y = figures[n][i] / 2;
+		}
 
-		//Window.clear can be left blank. Otherwise input colours using sf::Color.
-		window.clear(sf::Color::Black);
+		//Window.clear can be left blank. Otherwise input colours using sf::Color::.
+		window.clear(sf::Color::White);
 
-		//Draws texture
-		window.draw(sprite2);
+		for (int i = 0; i < 4; i++)
+		{
+			sprite.setPosition(a[i].x * 36, a[i].y * 36);
+			//window.draws the texture you've assigned to the sprite.
+			window.draw(sprite);
+		}
 		/*sf::RectangleShape rs(sf::Vector2f(100, 100));
 		window.draw(rs);*/
 		window.display();

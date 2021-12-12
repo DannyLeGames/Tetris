@@ -45,37 +45,38 @@ int figures[7][4] =
 };
 
 int main() {
-	//Hurray, window works
+	// Hurray, window works
 	RenderWindow window(sf::VideoMode(1280, 720), "Tetris");
 	Texture texture;
 	Texture texture2;
-	//Load up image into SFML
+	// Load up image into SFML
 	texture.loadFromFile("image/tiles.png");
 	Sprite sprite(texture);
 
-	//This will grab the blue block only, which is the first block.
-	//Looking at the file size, tiles.png is 144 by 18.
-	//There are 8 blocks, which means each blocks are 18 by 18 pixels.
+	// This will grab the blue block only, which is the first block.
+	// Looking at the file size, tiles.png is 144 by 18.
+	// There are 8 blocks, which means each blocks are 18 by 18 pixels.
 	sprite.setTextureRect(IntRect(0, 0, 18, 18));
 
-	//setScale allows for resizing of the texture. In this case, 2 * x and 2 * y. Default is 1 by 1.
+	// setScale allows for resizing of the texture. In this case, 2 * x and 2 * y. Default is 1 by 1.
 	sprite.setScale(2, 2);
 
-	//Test example to see if I can import another image instead of tutorial's image.
+	// Test example to see if I can import another image instead of tutorial's image.
 	texture2.loadFromFile("image/tiles_v2.png");
 	Sprite sprite2(texture2);
 	// 7 blocks, with a file size of 3584 by 512 pixels.
 	sprite2.setTextureRect(IntRect(0, 0, 512, 512));
 	sprite2.setScale(0.1, 0.1);
 
-	//Reference for learning how to include music is from:
-	//https://www.youtube.com/watch?v=fm2Hi7082d0
-	//Make sure to use Audacity to convert mp3 files to wav/ogg files because mp3 is not supported in SFML due to legal issues.
-	//Simple set up procedure. This will play the song immediately when the program starts.
-	//Music music;
-	//music.openFromFile("audio/WillowTree.ogg");
-	//music.setVolume(50);
-	//music.play();
+	// Reference for learning how to include music is from: https://www.youtube.com/watch?v=fm2Hi7082d0
+	// Make sure to use Audacity to convert mp3 files to wav/ogg files because mp3 is not supported in SFML due to legal issues.
+	// Simple set up procedure. This will play the song immediately when the program starts.
+	// I don't think the music matters for our midstone so I just picked the one I'm currently jamming to.
+	// Desired - Emotions. From Youtube: https://www.youtube.com/watch?v=ZS0NbHn2MuY
+	Music music;
+	music.openFromFile("audio/Desired - Emotions.ogg");
+	music.setVolume(40);
+	music.play();
 
 	//Variables set up for rotate, x position which is dx, and colour identification for later.
 	int dx = 0; 
